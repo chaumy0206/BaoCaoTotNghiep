@@ -1,0 +1,2733 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>BIZDI HRM</title>
+  <style>
+    :root {
+      --g: #148447;
+      --g2: #1eaa5c;
+      --g3: #75d398;
+      --bg: #efefef;
+      --bd: #ddd;
+      --tx: #222;
+      --mut: #777;
+      --sh: 0 2px 10px rgba(0, 0, 0, .12)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--tx)
+    }
+
+    body.auth {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: linear-gradient(180deg, #f7faf8, #eef5f1)
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    button,
+    input,
+    select {
+      font: inherit
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .auth-card {
+      width: min(668px, calc(100vw - 40px));
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: 1.26fr .74fr;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(29, 51, 43, .14)
+    }
+
+    .auth-l {
+      padding: 30px 28px 26px;
+      background: linear-gradient(180deg, #1b914f, #3dad70);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .auth-l:before,
+    .auth-l:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .14)
+    }
+
+    .auth-l:before {
+      width: 156px;
+      height: 156px;
+      left: -62px;
+      top: -58px
+    }
+
+    .auth-l:after {
+      width: 82px;
+      height: 82px;
+      right: 40px;
+      bottom: -42px
+    }
+
+    .logo {
+      position: relative;
+      width: 150px;
+      height: 58px;
+      margin: 4px auto 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .logo img {
+      width: 350%;
+      height: 350%;
+      display: block
+    }
+
+    .headline {
+      margin: 0 auto 28px;
+      text-align: center;
+      font-size: clamp(1.3rem, 2vw, 1.55rem);
+      font-weight: 700;
+      max-width: 320px
+    }
+
+    .contacts {
+      display: grid;
+      gap: 16px;
+      font-size: .8rem;
+      color: rgba(255, 255, 255, .96);
+      max-width: 390px;
+      margin: 0 auto
+    }
+
+    .c {
+      display: flex;
+      gap: 12px;
+      align-items: center
+    }
+
+    .i {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 24px
+    }
+
+    .i svg,
+    .mi svg,
+    .top svg,
+    .qa svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .auth-r {
+      position: relative;
+      background: linear-gradient(180deg, #f8fdfb, #f3fbf7);
+      padding: 28px 24px 22px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: hidden
+    }
+
+    .auth-r:before,
+    .auth-r:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(213, 236, 225, .82)
+    }
+
+    .auth-r:before {
+      width: 64px;
+      height: 64px;
+      top: 16px;
+      right: 36px
+    }
+
+    .auth-r:after {
+      width: 100px;
+      height: 100px;
+      top: 68px;
+      right: -32px
+    }
+
+    .diamond {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(180deg, #228f53, #4ab578);
+      transform: rotate(45deg);
+      top: 38px;
+      left: -11px
+    }
+
+    .v {
+      display: none;
+      width: 100%;
+      position: relative;
+      z-index: 1
+    }
+
+    .v.active {
+      display: block
+    }
+
+    .tt {
+      margin: 2px 0 22px;
+      font-size: 1.15rem;
+      color: #0f7b45;
+      text-align: center;
+      font-weight: 700
+    }
+
+    .tt span {
+      display: inline-block;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #2c9d6a
+    }
+
+    .panel {
+      background: transparent;
+      border-radius: 0;
+      padding: 0 2px;
+      max-width: 194px;
+      margin: 0 auto
+    }
+
+    .f {
+      width: 100%;
+      height: 26px;
+      border: 1px solid #d6dde8;
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+      background: #f1f5ff;
+      padding: 0 10px;
+      color: #4b5c6d;
+      margin: 0;
+      font-size: .78rem
+    }
+
+    .f::placeholder {
+      color: #b1b8c7
+    }
+
+    .fi {
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+      width: 100%
+    }
+
+    .fi .f {
+      flex: 1;
+      min-width: 0
+    }
+
+    .fic {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(180deg, #1e9959, #49b679);
+      color: #fff
+    }
+
+    .fic svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .sb {
+      width: 142px;
+      height: 32px;
+      margin: 38px auto 14px;
+      display: block;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ff980f, #ff7d00);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(255, 136, 0, .2);
+      font-size: .84rem
+    }
+
+    .act {
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      color: #607258;
+      font-size: .76rem;
+      padding: 0
+    }
+
+    .rem,
+    .note {
+      display: none
+    }
+
+    .ln {
+      color: #2d9870;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: .8rem
+    }
+
+    .fw {
+      width: 100%;
+      max-width: 194px;
+      min-height: 430px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+      padding-top: 6px
+    }
+
+    .fc {
+      margin: 0 0 12px;
+      color: #29415a;
+      font-size: .72rem;
+      line-height: 1.45;
+      max-width: 194px
+    }
+
+    .fshell {
+      display: flex;
+      align-items: stretch;
+      margin-bottom: 40px;
+      width: 100%
+    }
+
+    .fshell .f {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      border-radius: 8px 0 0 8px;
+      border-right: none;
+      height: 26px;
+      background: #f1f5ff
+    }
+
+    .fa {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 0 8px 8px 0;
+      background: linear-gradient(180deg, #1e9959, #49b679);
+      color: #fff
+    }
+
+    .fa svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .fp {
+      width: 172px;
+      align-self: center;
+      margin: 0 auto 36px;
+      min-height: 32px;
+      padding: 0 14px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ff9500, #ff7c00);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(255, 136, 0, .22);
+      font-size: .78rem;
+      line-height: 1.05;
+      white-space: nowrap
+    }
+
+    .fd {
+      width: 100%;
+      height: 1px;
+      background: #dce5eb;
+      margin-bottom: 28px
+    }
+
+    .resetw {
+      width: 100%;
+      max-width: 194px;
+      min-height: 430px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+      padding-top: 6px
+    }
+
+    .resetw .tt {
+      margin-bottom: 28px
+    }
+
+    .rt {
+      margin: 0 0 6px;
+      color: #5f6964;
+      font-size: .72rem;
+      font-weight: 600
+    }
+
+    .ri {
+      width: 100%;
+      height: 28px;
+      border: 1px solid #d6dde8;
+      border-radius: 8px;
+      background: #f1f5ff;
+      padding: 0 10px;
+      color: #4b5c6d;
+      font-size: .78rem;
+      margin: 0 0 12px
+    }
+
+    .rb {
+      width: 172px;
+      align-self: center;
+      margin: 16px auto 0;
+      min-height: 32px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #8ccfaf, #77c19b);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(124, 193, 155, .28);
+      font-size: .78rem
+    }
+
+    .rback {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -2px;
+      margin-bottom: 10px;
+      font-size: .72rem;
+      color: #2d9870;
+      cursor: pointer
+    }
+
+    .rerr {
+      min-height: 16px;
+      margin: 0 0 4px;
+      color: #de5c5c;
+      font-size: .72rem;
+      text-align: left
+    }
+
+    .rerr.hidden {
+      visibility: hidden
+    }
+
+    .mail-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 24, 20, .18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 120
+    }
+
+    .mail-modal-backdrop.hidden {
+      display: none !important
+    }
+
+    .mail-modal {
+      width: min(528px, calc(100vw - 32px));
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
+      padding: 12px 22px 34px;
+      position: relative
+    }
+
+    .mail-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      border: none;
+      background: transparent;
+      color: #cfcfcf;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer
+    }
+
+    .mail-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 4px solid #ffc183;
+      color: #ffc183;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      font-size: 26px;
+      font-weight: 700
+    }
+
+    .mail-title {
+      margin: 0 0 26px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #111
+    }
+
+    .mail-text {
+      margin: 0 0 14px;
+      color: #666;
+      font-size: 13px
+    }
+
+    .mail-text span {
+      color: #666
+    }
+
+    .mail-code {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #bfc4ca;
+      border-radius: 10px;
+      padding: 0 12px;
+      font-size: 14px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, .16)
+    }
+
+    .mail-resend {
+      margin: 10px 0 14px;
+      text-align: right;
+      color: #666;
+      font-size: 13px;
+      cursor: pointer
+    }
+
+    .mail-confirm {
+      display: block;
+      min-width: 98px;
+      height: 40px;
+      margin: 0 auto;
+      border: none;
+      border-radius: 10px;
+      background: #83c8a3;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: 0 6px 12px rgba(110, 171, 139, .38);
+      cursor: pointer
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 172px minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg)
+    }
+
+    .side {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, var(--g), #128342);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, .08);
+      z-index: 25
+    }
+
+    .brand {
+      height: 57px;
+      padding: 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid rgba(255, 255, 255, .55);
+      font-size: 18px
+    }
+
+    .bb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      color: #ff5f35;
+      display: grid;
+      place-items: center;
+      font-weight: 800
+    }
+
+    .menu {
+      padding: 8px 4px 18px;
+      overflow-y: hidden;
+      overflow-x: hidden;
+      flex: 1
+    }
+
+    .menu:hover {
+      overflow-y: auto
+    }
+
+    .mg {
+      margin-bottom: 4px
+    }
+
+    .m,
+    .sm {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      border-radius: 6px
+    }
+
+    .m {
+      padding: 8px 10px 8px 14px;
+      min-height: 30px;
+      font-weight: 600;
+      font-size: 13px
+    }
+
+    .m:hover,
+    .sm:hover {
+      background: rgba(255, 255, 255, .08)
+    }
+
+    .m.active {
+      background: rgba(122, 224, 158, .32);
+      color: #d8ffdf
+    }
+
+    .ml {
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .mi {
+      width: 16px;
+      height: 16px;
+      display: grid;
+      place-items: center
+    }
+
+    .sub {
+      display: none;
+      padding: 4px 0 2px
+    }
+
+    .mg.open .sub {
+      display: block
+    }
+
+    .sm {
+      padding: 8px 12px 8px 38px;
+      min-height: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .95);
+      text-align: left
+    }
+
+    .sm.active {
+      background: rgba(122, 224, 158, .55);
+      color: #0d7f47
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0
+    }
+
+    .top {
+      height: 58px;
+      background: #fff;
+      border-bottom: 2px solid #d3d3d3;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px 0 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .06)
+    }
+
+    .tl,
+    .tr {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .pt {
+      font-size: 19px;
+      font-weight: 700
+    }
+
+    .tog {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #444
+    }
+
+    .userbox {
+      position: relative;
+      padding-left: 12px;
+      border-left: 1px solid #ececec
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #666;
+      font-size: 13px;
+      cursor: pointer
+    }
+
+    .uc {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      background: radial-gradient(circle at 35% 30%, #f5f5f5 0, #d9d9d9 68%, #b8b8b8 100%);
+      box-shadow: inset 0 0 0 2px #efefef
+    }
+
+    .uc svg {
+      width: 16px;
+      height: 16px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .udrop {
+      position: absolute;
+      top: 42px;
+      right: 0;
+      width: 136px;
+      background: #188547;
+      color: #fff;
+      border: 1px solid rgba(0, 0, 0, .08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+      display: none;
+      z-index: 20
+    }
+
+    .udrop.open {
+      display: block
+    }
+
+    .uhead {
+      padding: 12px 10px 8px;
+      text-align: center
+    }
+
+    .uavatar {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2da1ff, #1b69d2);
+      border: 3px solid #9bc99d;
+      display: grid;
+      place-items: center;
+      overflow: hidden
+    }
+
+    .uavatar svg {
+      width: 42px;
+      height: 42px
+    }
+
+    .uname {
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 3px
+    }
+
+    .udept {
+      font-size: 10px
+    }
+
+    .uactions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: #fff;
+      padding: 8px
+    }
+
+    .ubtn {
+      height: 28px;
+      border: none;
+      border-radius: 0;
+      background: #ff8c21;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .content {
+      padding: 6px;
+      background: var(--bg);
+      min-height: calc(100vh - 58px)
+    }
+
+    .tb {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 8px;
+      flex-wrap: wrap
+    }
+
+    .tbl,
+    .tbr {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .in,
+    .sel {
+      height: 24px;
+      border: 1px solid #dbdbdb;
+      border-radius: 6px;
+      background: #fff;
+      color: #565656;
+      padding: 0 8px;
+      font-size: 11px;
+      min-width: 70px
+    }
+
+    .in.s {
+      min-width: 234px
+    }
+
+    .date-in {
+      width: 120px;
+      min-width: 120px
+    }
+
+    .date-in::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: .75
+    }
+
+    .btn {
+      height: 24px;
+      border: none;
+      border-radius: 7px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .12)
+    }
+
+    .b1 {
+      background: linear-gradient(180deg, #f7c03d, #ffb31a)
+    }
+
+    .b2 {
+      background: linear-gradient(180deg, #47b978, #22a45b)
+    }
+
+    .b3 {
+      background: linear-gradient(180deg, #d95f5f, #b82f2f)
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #d7d7d7;
+      border-radius: 14px;
+      box-shadow: var(--sh);
+      overflow: hidden
+    }
+
+    .pad {
+      padding: 14px
+    }
+
+    .hd {
+      padding: 9px 12px;
+      border-bottom: 1px solid #e3e3e3;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a9152;
+      background: #fff
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e3e3e3;
+      text-align: left;
+      vertical-align: middle
+    }
+
+    th {
+      background: #efefef;
+      font-weight: 700
+    }
+
+    th+th,
+    td+td {
+      border-left: 1px solid #efefef
+    }
+
+    .bdg {
+      min-width: 54px;
+      height: 20px;
+      padding: 0 9px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap
+    }
+
+    .blue {
+      background: #bae3ff;
+      color: #2b95d6;
+      border: 1px solid #8fd0ff
+    }
+
+    .green {
+      background: #bcebc8;
+      color: #17864b
+    }
+
+    .red {
+      background: #ff9898;
+      color: #9f2828
+    }
+
+    .lime {
+      background: #d3f294;
+      color: #5e7d13
+    }
+
+    .empty {
+      text-align: center;
+      color: #8f8f8f;
+      padding: 14px 10px;
+      font-size: 11px
+    }
+
+    .pg {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px 10px;
+      font-size: 11px;
+      color: #7cbf91
+    }
+
+    .pi {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #8fd5a7;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: #4d9f68;
+      background: #f7fff9
+    }
+
+    .dg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: stretch
+    }
+
+    .dg>div {
+      display: flex;
+      flex-direction: column
+    }
+
+    .dg>div .card {
+      flex: 1;
+      min-height: 128px
+    }
+
+    .st {
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #4e4e4e
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 18px;
+      align-items: center;
+      padding-left: 8px
+    }
+
+    .av {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #eedaff 0, #dcc5ff 70%);
+      color: #6c53b5;
+      display: grid;
+      place-items: center
+    }
+
+    .av svg {
+      width: 38px;
+      height: 38px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .pn {
+      margin: 0 0 10px;
+      color: #169050;
+      font-size: 18px;
+      font-weight: 800
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 18px;
+      font-size: 11px;
+      color: #444
+    }
+
+    .qas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px 12px;
+      padding: 18px 10px 20px;
+      justify-items: center
+    }
+
+    .qa {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      text-align: center
+    }
+
+    .qic {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #10924e;
+      color: #fff;
+      display: grid;
+      place-items: center
+    }
+
+    .qic svg {
+      width: 24px;
+      height: 24px
+    }
+
+    .gc2 {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 8px
+    }
+
+    .tree {
+      padding: 8px 12px 12px;
+      font-size: 11px
+    }
+
+    .ti {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 5px 0
+    }
+
+    .tdot {
+      width: 8px;
+      height: 8px;
+      border-left: 1px solid #c9c9c9;
+      border-bottom: 1px solid #c9c9c9
+    }
+
+    .root {
+      font-weight: 700;
+      color: #3f8f53;
+      background: #d7f3df;
+      padding: 1px 6px;
+      border-radius: 4px;
+      width: fit-content
+    }
+
+    .p2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .sg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px
+    }
+
+    .cb {
+      min-height: 260px;
+      padding: 12px
+    }
+
+    .mt {
+      font-size: 12px;
+      font-weight: 700;
+      color: #4da56a;
+      margin-bottom: 10px;
+      padding-bottom: 2px;
+      border-bottom: 2px solid #7fd19b;
+      display: inline-block
+    }
+
+    .donut {
+      width: 146px;
+      height: 146px;
+      border-radius: 50%;
+      background: conic-gradient(#f4b000 0 75%, #276cd2 75% 100%);
+      position: relative;
+      margin: 14px auto 20px
+    }
+
+    .donut:after {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      background: #fff
+    }
+
+    .lg {
+      display: grid;
+      gap: 10px;
+      max-width: 120px;
+      margin: 0 auto;
+      font-size: 11px
+    }
+
+    .li {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .sw {
+      width: 38px;
+      height: 8px;
+      border-radius: 3px
+    }
+
+    .barc {
+      height: 180px;
+      margin: 24px 12px 6px;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      gap: 26px;
+      border-left: 1px solid #d7d7d7;
+      border-bottom: 1px solid #d7d7d7;
+      padding: 0 18px 12px;
+      position: relative
+    }
+
+    .barc:before {
+      content: "";
+      position: absolute;
+      inset: 0 0 12px 0;
+      background: repeating-linear-gradient(to top, transparent 0 31px, rgba(0, 0, 0, .05) 31px 32px)
+    }
+
+    .bar {
+      width: 34px;
+      background: #f05b5b;
+      position: relative;
+      z-index: 1
+    }
+
+    .bl {
+      font-size: 10px;
+      color: #7a7a7a;
+      margin-top: 6px;
+      text-align: center
+    }
+
+    .inc {
+      padding: 16px 18px 20px
+    }
+
+    .ih {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 400;
+      margin: 0 0 18px
+    }
+
+    .years {
+      display: flex;
+      gap: 18px;
+      font-size: 11px;
+      color: #6ca57e;
+      margin: 16px 0 12px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #ececec
+    }
+
+    .years span.active {
+      color: #2b8e52;
+      font-weight: 700;
+      border-bottom: 2px solid #53b677
+    }
+
+    .ig {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 12px;
+      margin-top: 14px
+    }
+
+    .line {
+      min-height: 220px;
+      border-top: 1px solid #f0f0f0;
+      position: relative;
+      padding-top: 28px
+    }
+
+    .line:before {
+      content: "";
+      position: absolute;
+      inset: 32px 0 30px;
+      background: repeating-linear-gradient(to top, transparent 0 28px, rgba(0, 0, 0, .05) 28px 29px);
+      border-left: 1px solid #ddd;
+      border-bottom: 1px solid #ddd
+    }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 22px;
+      font-size: 11px;
+      justify-content: center
+    }
+
+    .legend .sw {
+      width: 28px
+    }
+
+    .dbox {
+      display: grid;
+      gap: 10px
+    }
+
+    .dr {
+      border: 1px solid #dbdbdb;
+      background: #fafafa
+    }
+
+    .dr strong {
+      display: flex;
+      justify-content: space-between;
+      background: #efefef;
+      padding: 9px 10px;
+      font-size: 11px
+    }
+
+    .dr div {
+      padding: 10px;
+      text-align: center;
+      color: #8d8d8d;
+      font-size: 11px
+    }
+
+    .actions {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center
+    }
+
+    .ai {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .ae {
+      background: #1f9a54
+    }
+
+    .ad {
+      background: #ff3131
+    }
+
+    .profile-page {
+      display: grid;
+      gap: 10px
+    }
+
+    .profile-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #5a5a5a
+    }
+
+    .profile-block {
+      background: #fff;
+      border: 1px solid #dadada;
+      border-radius: 14px;
+      box-shadow: var(--sh);
+      overflow: hidden
+    }
+
+    .profile-head {
+      padding: 8px 12px 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #58aa79
+    }
+
+    .profile-head span {
+      display: inline-block;
+      padding-bottom: 3px;
+      border-bottom: 2px solid #79cf9d
+    }
+
+    .profile-main {
+      padding: 10px 14px 12px
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 86px repeat(4, minmax(0, 1fr));
+      gap: 6px 14px;
+      align-items: start
+    }
+
+    .profile-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #f0deff 0, #e5d3ff 68%, #d8c0ff 100%);
+      color: #6a56b5;
+      display: grid;
+      place-items: center;
+      margin-top: 8px
+    }
+
+    .profile-avatar svg {
+      width: 42px;
+      height: 42px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .profile-col {
+      display: grid;
+      gap: 5px
+    }
+
+    .profile-item {
+      font-size: 10px;
+      line-height: 1.32;
+      color: #333
+    }
+
+    .profile-item strong {
+      display: block;
+      font-size: 9px;
+      color: #666;
+      font-weight: 700
+    }
+
+    .profile-info {
+      padding: 10px 14px 12px
+    }
+
+    .profile-job {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px 16px
+    }
+
+    .profile-contract {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px 14px;
+      padding: 10px 14px 12px
+    }
+
+    .profile-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 16px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #ffeded;
+      color: #dc5959;
+      font-size: 9px;
+      font-weight: 700
+    }
+
+    .profile-status {
+      display: inline-flex;
+      align-items: center;
+      height: 16px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #ffe6e6;
+      color: #d64545;
+      font-size: 9px;
+      font-weight: 700
+    }
+
+    .profile-table .card {
+      box-shadow: none;
+      border: none;
+      border-radius: 0
+    }
+
+    .profile-table table {
+      font-size: 10px
+    }
+
+    .profile-table th,
+    .profile-table td {
+      padding: 8px 10px
+    }
+
+    .profile-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: .6cm;
+      padding: 0 2px 0 0
+    }
+
+    .profile-fab {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700
+    }
+
+    .profile-fab.red {
+      background: #a43838
+    }
+
+    .profile-fab.cyan {
+      background: #49c2db
+    }
+
+    .profile-fab.green {
+      background: #2aa763
+    }
+
+    .ckcell {
+      width: 44px;
+      text-align: center;
+      padding: 0 6px !important
+    }
+
+    .ckwrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%
+    }
+
+    .ck {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border: 1px solid #5d9875;
+      border-radius: 2px;
+      background: #fff;
+      cursor: pointer;
+      position: relative
+    }
+
+    .ck:checked {
+      background: #168a48;
+      border-color: #168a48
+    }
+
+    .ck:checked::after {
+      content: "✓";
+      position: absolute;
+      left: 1px;
+      top: -3px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .att-row.checked td {
+      background: #aec0b0
+    }
+
+    .att-row.checked td:first-child {
+      background: #9fb4a2
+    }
+
+    .att-row.checked .att-btn {
+      background: #fff;
+      color: #7b8c7e;
+      border: 1px solid #9eb4a4
+    }
+
+    .att-card {
+      overflow: visible
+    }
+
+    .att-table {
+      overflow: visible
+    }
+
+    .att-table table {
+      overflow: visible
+    }
+
+    .att-table tbody,
+    .att-table tr {
+      overflow: visible
+    }
+
+    .att-cell {
+      position: relative;
+      overflow: visible !important
+    }
+
+    .att-wrap {
+      position: relative;
+      display: inline-block
+    }
+
+    .att-btn {
+      height: 24px;
+      min-width: 46px;
+      padding: 0 8px;
+      border: 1px solid #95d5a7;
+      border-radius: 4px;
+      background: #fff;
+      color: #6f8b77;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer
+    }
+
+    .att-btn .arr {
+      font-size: 9px;
+      line-height: 1;
+      color: #7aa787
+    }
+
+    .att-menu {
+      position: absolute;
+      top: 25px;
+      left: 0;
+      background: #fff;
+      border: 1px solid #dadada;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, .16);
+      border-radius: 2px;
+      display: none;
+      min-width: 34px;
+      z-index: 9999
+    }
+
+    .att-menu.open {
+      display: block
+    }
+
+    .att-option {
+      width: 100%;
+      height: 28px;
+      border: none;
+      background: #fff;
+      color: #666;
+      font-size: 11px;
+      cursor: pointer
+    }
+
+    .att-option:hover {
+      background: #f2f6f3
+    }
+
+    .att-option.active {
+      background: #a9bba7;
+      color: #333
+    }
+
+    .crumb {
+      display: flex;
+      justify-content: flex-end;
+      margin: 2px 2px 8px;
+      font-size: 11px;
+      color: #7f9db0
+    }
+
+    .hr-create {
+      display: grid;
+      gap: 10px
+    }
+
+    .hr-create-title {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #28895f
+    }
+
+    .hr-card {
+      border-radius: 10px;
+      overflow: hidden
+    }
+
+    .hr-card-head {
+      padding: 8px 12px;
+      border-bottom: 1px solid #d8e4ec;
+      background: #edf4fb;
+      color: #428c6f;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .hr-card-body {
+      padding: 12px
+    }
+
+    .hr-personal {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 12px
+    }
+
+    .hr-avatar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px
+    }
+
+    .hr-avatar-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #606d79
+    }
+
+    .hr-avatar-box {
+      width: 84px;
+      height: 84px;
+      border: 1px dashed #c9d6e1;
+      border-radius: 8px;
+      background: #fafcfe;
+      display: grid;
+      place-items: center;
+      color: #8ba0b1;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.45;
+      cursor: pointer
+    }
+
+    .hr-avatar-box input {
+      display: none
+    }
+
+    .hr-grid,
+    .hr-tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 12px
+    }
+
+    .hr-field,
+    .hr-wide {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0
+    }
+
+    .hr-wide {
+      grid-column: span 3
+    }
+
+    .hr-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #5e6d7b
+    }
+
+    .hr-label.req::before {
+      content: "* ";
+      color: #e55757
+    }
+
+    .hr-field .in,
+    .hr-field .sel,
+    .hr-wide .in,
+    .hr-wide .sel {
+      width: 100%;
+      height: 28px
+    }
+
+    .hr-tab-head {
+      display: flex;
+      gap: 18px;
+      padding: 0 12px;
+      border-bottom: 1px solid #dbe4ec;
+      background: #f6f9fc;
+      overflow-x: auto
+    }
+
+    .hr-tab {
+      padding: 9px 0 8px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      color: #6d7f8d;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer
+    }
+
+    .hr-tab.active {
+      color: #2b8c62;
+      border-bottom-color: #2b8c62
+    }
+
+    .hr-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px
+    }
+
+    .tb-create {
+      display: grid;
+      gap: 10px
+    }
+
+    .tb-section-title {
+      display: inline-flex;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #2b8c62;
+      color: #2b8c62;
+      font-size: 12px;
+      font-weight: 700
+    }
+
+    .tb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px 12px
+    }
+
+    .tb-field,
+    .tb-wide {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0
+    }
+
+    .tb-wide {
+      grid-column: 1 / -1
+    }
+
+    .tb-field .in,
+    .tb-field .sel,
+    .tb-wide .in,
+    .tb-wide .sel {
+      width: 100%;
+      height: 32px
+    }
+
+    .tb-textarea {
+      min-height: 88px;
+      border: 1px solid #dbdbdb;
+      border-radius: 6px;
+      background: #fff;
+      color: #565656;
+      padding: 8px 10px;
+      font: inherit;
+      font-size: 11px;
+      resize: vertical
+    }
+
+    .tb-upload {
+      width: fit-content;
+      height: 28px;
+      border: 1px solid #d7d7d7;
+      border-radius: 6px;
+      background: #fff;
+      color: #667988;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      cursor: pointer
+    }
+
+    .tb-upload input {
+      display: none
+    }
+
+    .tb-switch {
+      position: relative;
+      width: 34px;
+      height: 18px
+    }
+
+    .tb-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0
+    }
+
+    .tb-slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #d9d9d9;
+      transition: .2s
+    }
+
+    .tb-slider::before {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 2px;
+      top: 2px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .18);
+      transition: .2s
+    }
+
+    .tb-switch input:checked+.tb-slider {
+      background: #2b8c62
+    }
+
+    .tb-switch input:checked+.tb-slider::before {
+      transform: translateX(16px)
+    }
+
+    .tb-table-wrap {
+      overflow: hidden
+    }
+
+    .tb-table-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 0 8px
+    }
+
+    .tb-table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .tb-table th,
+    .tb-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #ececec;
+      text-align: center
+    }
+
+    .tb-table th {
+      background: #fff;
+      color: #4a4a4a
+    }
+
+    .tb-empty {
+      color: #c2c2c2;
+      font-size: 11px
+    }
+
+    .leave-create {
+      display: grid;
+      gap: 10px
+    }
+
+    .leave-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .leave-toolbar-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .leave-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px 16px
+    }
+
+    .leave-field,
+    .leave-wide {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0
+    }
+
+    .leave-wide {
+      grid-column: span 3
+    }
+
+    .leave-field .in,
+    .leave-field .sel,
+    .leave-wide .in,
+    .leave-wide .sel {
+      width: 100%;
+      height: 32px
+    }
+
+    .leave-textarea {
+      min-height: 38px;
+      border: 1px solid #dbdbdb;
+      border-radius: 6px;
+      background: #fff;
+      color: #565656;
+      padding: 8px 10px;
+      font: inherit;
+      font-size: 11px;
+      resize: vertical
+    }
+
+    .leave-static {
+      font-size: 11px;
+      color: #535353;
+      padding-top: 2px
+    }
+
+    @media (max-width:1100px) {
+
+      .hr-personal,
+      .hr-grid,
+      .hr-tabs-grid,
+      .tb-grid,
+      .leave-grid {
+        grid-template-columns: 1fr
+      }
+
+      .hr-wide {
+        grid-column: auto
+      }
+
+      .leave-wide {
+        grid-column: auto
+      }
+    }
+
+    @media (max-width:1100px) {
+
+      .dg,
+      .sg,
+      .p2,
+      .ig,
+      .gc2,
+      .profile-grid,
+      .profile-job,
+      .profile-contract {
+        grid-template-columns: 1fr
+      }
+
+      .profile-avatar {
+        margin: 0 auto 8px
+      }
+    }
+
+    @media (max-width:860px) {
+      body.auth {
+        padding: 14px
+      }
+
+      .auth-card {
+        grid-template-columns: 1fr;
+        width: min(560px, calc(100vw - 28px))
+      }
+
+      .app {
+        grid-template-columns: 1fr
+      }
+
+      .side {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 172px;
+        transform: translateX(-100%);
+        transition: transform .2s ease
+      }
+
+      .app.open .side {
+        transform: translateX(0)
+      }
+    }
+
+    @media (max-width:640px) {
+
+      .auth-l,
+      .auth-r {
+        padding-left: 20px;
+        padding-right: 20px
+      }
+
+      .logo {
+        margin-bottom: 34px
+      }
+
+      .headline {
+        margin-bottom: 22px
+      }
+
+      .contacts {
+        font-size: .76rem
+      }
+    }
+  </style>
+</head>
+
+<body class="auth">
+  <div id="auth" class="auth-card">
+    <section class="auth-l">
+      <div>
+        <div class="logo">
+          <img src="bizdi.png" alt="Bizdi logo">
+        </div>
+        <h1 class="headline">Hệ thống quản lý nhân sự</h1>
+      </div>
+      <div class="contacts">
+        <div class="c"><span class="i"><svg viewBox="0 0 24 24">
+              <path d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10Z"></path>
+              <path d="M12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"></path>
+            </svg></span><span>174 Phan Trọng Tuệ, P. Hòa Cường Nam, Q. Hải Châu, TP. Đà Nẵng</span></div>
+        <div class="c"><span class="i"><svg viewBox="0 0 24 24">
+              <path d="M4 6h16v12H4z"></path>
+              <path d="m4 7 8 6 8-6"></path>
+            </svg></span><span>info@bizdi.net</span></div>
+        <div class="c"><span class="i"><svg viewBox="0 0 24 24">
+              <path
+                d="M6.5 4.5c0 8 5 13 13 13l1.5-3.5-4.25-2-1.75 1.75a10.6 10.6 0 0 1-4.75-4.75L12 7.25 10 3 6.5 4.5Z">
+              </path>
+            </svg></span><span>02363 262626</span></div>
+        <div class="c"><span class="i"><svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M3 12h18"></path>
+              <path d="M12 3c2.6 2.4 4 5.7 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.7-4-9s1.4-6.6 4-9Z"></path>
+            </svg></span><span>https://www.bizdi.net/</span></div>
+      </div>
+    </section>
+    <section class="auth-r">
+      <div class="diamond"></div>
+      <div class="v active" id="loginv">
+        <h2 class="tt"><span>Đăng nhập</span></h2>
+        <form class="panel" id="loginf">
+          <div class="fi"><input class="f" placeholder="Tài khoản" required><span class="fic"><svg viewBox="0 0 24 24">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+                <path d="M5 20a7 7 0 0 1 14 0"></path>
+              </svg></span></div>
+          <div class="fi"><input class="f" type="password" placeholder="Mật khẩu" required><span class="fic"><svg
+                viewBox="0 0 24 24">
+                <rect x="5" y="11" width="14" height="9" rx="2"></rect>
+                <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+              </svg></span></div><button class="sb">ĐĂNG NHẬP</button>
+          <div class="act"><a class="ln swv" data-v="forgotv" href="#">Quên mật khẩu</a></div>
+        </form>
+      </div>
+      <div class="v" id="forgotv">
+        <form class="fw" id="forgotf">
+          <p class="fc">Vui lòng cung cấp email đã đăng ký trong hồ sơ, chúng tôi sẽ gửi thông tin tài khoản về email
+            cho bạn!</p>
+          <div class="fshell"><input class="f" id="forgot-email" type="email" placeholder="Email" required><span
+              class="fa"><svg viewBox="0 0 24 24">
+                <path d="M4 7h16v10H4z"></path>
+                <path d="m4 8 8 6 8-6"></path>
+              </svg></span></div><button class="fp">CẤP LẠI MẬT KHẨU</button>
+          <div class="fd"></div>
+          <div style="text-align:center;color:#364556;font-size:.8rem">Đã có tài khoản? <a class="ln swv"
+              data-v="loginv" href="#">Đăng nhập</a></div>
+        </form>
+      </div>
+      <div class="v" id="resetv">
+        <form class="resetw" id="resetf">
+          <h2 class="tt"><span>Mật khẩu mới</span></h2><label class="rt" for="reset-pass">Nhập mật khẩu
+            mới</label><input class="ri" id="reset-pass" type="password" placeholder="Nhập mật khẩu" required><label
+            class="rt" for="reset-pass-again">Nhập lại mật khẩu mới</label><input class="ri" id="reset-pass-again"
+            type="password" placeholder="Nhập lại mật khẩu" required>
+          <div id="reset-error" class="rerr hidden">Mật khẩu mới và nhập lại mật khẩu phải giống nhau.</div>
+          <div class="rback"><a class="ln swv" data-v="loginv" href="#">Quay lại</a></div><button class="rb"
+            type="submit">Xác nhận</button>
+        </form>
+      </div>
+    </section>
+  </div>
+  <div id="mail-modal-backdrop" class="mail-modal-backdrop hidden">
+    <div class="mail-modal"><button class="mail-close" id="mail-close" type="button">×</button>
+      <div class="mail-icon">!</div>
+      <h3 class="mail-title">Xác nhận email</h3>
+      <p class="mail-text">Mã code của bạn đã được gửi đến <span id="mail-target">abc123@gmail.com</span></p><input
+        id="mail-code" class="mail-code" placeholder="Nhập mã code">
+      <div class="mail-resend">Gửi lại mã</div><button id="mail-confirm" class="mail-confirm" type="button">Xác
+        nhận</button>
+    </div>
+  </div>
+  <div id="app" class="app hidden">
+    <aside class="side">
+      <div class="brand">
+        <div class="bb">B</div>
+        <div>BIZDI <strong>HRM</strong></div>
+      </div>
+      <nav id="menu" class="menu"></nav>
+    </aside>
+    <div class="main">
+      <header class="top">
+        <div class="tl"><button class="tog" id="tog"><svg viewBox="0 0 24 24">
+              <path d="M4 7h16"></path>
+              <path d="M4 12h16"></path>
+              <path d="M4 17h16"></path>
+            </svg></button>
+          <div id="title" class="pt">Trang chủ</div>
+        </div>
+        <div class="tr">
+          <div class="userbox">
+            <div class="user" id="user-toggle"><span>Người dùng</span><span class="uc"><svg viewBox="0 0 24 24">
+                  <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+                  <path d="M5 20a7 7 0 0 1 14 0"></path>
+                </svg></span></div>
+            <div class="udrop" id="user-menu">
+              <div class="uhead">
+                <div class="uavatar"><svg viewBox="0 0 64 64">
+                    <circle cx="32" cy="24" r="12" fill="#f2c29b"></circle>
+                    <path d="M20 52c2-10 8-15 12-15s10 5 12 15" fill="#151515"></path>
+                    <path d="M20 22c1-9 7-14 12-14s11 5 12 14c-3-2-6-3-12-3s-9 1-12 3" fill="#6c5c52"></path>
+                    <path d="M18 56c0-10 6-18 14-18h0c8 0 14 8 14 18" fill="#222"></path>
+                    <path d="M26 38h12l-1 12h-10z" fill="#ffffff"></path>
+                    <path d="M26 38l6 7l6-7" fill="#d54b4b"></path>
+                  </svg></div>
+                <div class="uname">chaumy</div>
+                <div class="udept">Phòng Kinh Doanh</div>
+              </div>
+              <div class="uactions"><button class="ubtn" id="profile-btn">Hồ sơ</button><button class="ubtn"
+                  id="logout-btn">Đăng xuất</button></div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main id="content" class="content"></main>
+    </div>
+  </div>
+  <script>
+    const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+    const icons = { home: '<svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7"></path><path d="M6 10v10h12V10"></path></svg>', user: '<svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path><path d="M5 20a7 7 0 0 1 14 0"></path></svg>', doc: '<svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h5"></path></svg>', plus: '<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>', grid: '<svg viewBox="0 0 24 24"><path d="M4 4h6v6H4z"></path><path d="M14 4h6v6h-6z"></path><path d="M4 14h6v6H4z"></path><path d="M14 14h6v6h-6z"></path></svg>', team: '<svg viewBox="0 0 24 24"><path d="M7 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path><path d="M17 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path><path d="M3 19a4 4 0 0 1 8 0"></path><path d="M13 19a4 4 0 0 1 8 0"></path></svg>', money: '<svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="M12 10v4"></path><path d="M10 12h4"></path></svg>', shield: '<svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3.4 8.4 7 10 3.6-1.6 7-5 7-10V6l-7-3Z"></path></svg>', cal: '<svg viewBox="0 0 24 24"><path d="M7 3v4"></path><path d="M17 3v4"></path><path d="M4 9h16"></path><path d="M5 5h14v15H5z"></path></svg>', pen: '<svg viewBox="0 0 24 24"><path d="m4 20 4-1 10-10-3-3L5 16l-1 4Z"></path><path d="m14 6 3 3"></path></svg>' };
+    const tool = (l = '', r = '') => `<div class="tb"><div class="tbl">${l}</div><div class="tbr">${r}</div></div>`;
+    const table = (h, rows, empty = 'Không có dữ liệu') => `<div class="card"><table><thead><tr>${h.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.length ? rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('') : `<tr><td class="empty" colspan="${h.length}">${empty}</td></tr>`}</tbody></table><div class="pg"><span>&lt;</span><span class="pi">1</span><span>&gt;</span></div></div>`;
+    const tree = (root, items) => `<div class="card"><div class="tree">${root ? `<div class="root">${root}</div>` : ''}${items.map(i => `<div class="ti"><span class="${root ? 'tdot' : ''}">${root ? '' : '+'}</span><span>${i}</span></div>`).join('')}</div></div>`;
+    const edit = () => '<span class="actions"><span class="ai ae">✎</span><span class="ai ad">✕</span></span>';
+    const pages = {
+      dashboard: { t: 'Trang chủ', r: () => `${'<div class="dg"><div><h3 class="st">Thông tin cá nhân</h3><div class="card pad"><div class="info"><div class="av"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path><path d="M5 20a7 7 0 0 1 14 0"></path></svg></div><div><div class="pn">CHÂU MY</div><div class="meta"><div><strong>Phòng ban:</strong><br>Phòng Kinh Doanh</div><div><strong>Chức vụ:</strong><br>Chuyên viên</div><div><strong>Email:</strong><br>abc123@gmail.com</div><div><strong>SDT:</strong><br>012345678</div></div></div></div></div></div><div><h3 class="st">Thông báo</h3>'}${table(['Loại thông báo', 'Nội dung'], [])}${'</div></div><div style="margin-bottom:12px"><h3 class="st">Đơn nghỉ phép chờ phê duyệt/ ý kiến</h3>'}${table(['STT', 'Nhân viên', 'Phòng ban', 'Loại nghỉ', 'Thời gian', 'Lý do', 'Trạng thái'], [])}${'</div><div style="margin-bottom:12px"><h3 class="st">Đơn thêm giờ chờ phê duyệt/ ý kiến</h3>'}${table(['STT', 'Nhân viên', 'Phòng ban', 'Ngày', 'Số giờ', 'Lý do', 'Trạng thái'], [])}${'</div>'}${tool('<h3 class="st" style="margin:0">Chấm công ngày</h3>', '<input class="in date-in" id="attendance-date" type="date"><button class="btn b1">Chấm công</button>')}${'<div class="card att-card"><div class="att-table"><table id="attendance-table"><thead><tr><th class="ckcell"><div class="ckwrap"><input class="ck" id="attendance-all" type="checkbox"></div></th><th>Tên nhân viên</th><th>Phòng ban</th><th>Chức vụ</th><th>Công</th></tr></thead><tbody><tr class="att-row"><td class="ckcell"><div class="ckwrap"><input class="ck attendance-row-check" type="checkbox"></div></td><td>Châu My</td><td>Phòng Kinh Doanh</td><td>Chuyên viên</td><td class="att-cell"><div class="att-wrap"><button class="att-btn" data-attendance-toggle><span class="att-value">X</span><span class="arr">▽</span></button><div class="att-menu"><button class="att-option active" data-attendance-value>X</button><button class="att-option" data-attendance-value>L</button><button class="att-option" data-attendance-value>P</button><button class="att-option" data-attendance-value>Ô</button><button class="att-option" data-attendance-value>TS</button><button class="att-option" data-attendance-value>CT</button><button class="att-option" data-attendance-value>H</button><button class="att-option" data-attendance-value>KL</button></div></div></td></tr></tbody></table></div></div><div class="card" style="margin-top:38px"><div class="qas">'}${[['Chấm công', 'cal', 'cham-cong-thang'], ['Đăng ký thêm giờ', 'cal', 'them-gio-dang-ky'], ['Đăng ký nghỉ phép', 'cal', 'nghi-phep-dang-ky'], ['Duyệt chấm công', 'pen', 'cham-cong-duyet-thang'], ['Duyệt thêm giờ', 'pen', 'them-gio-phe-duyet'], ['Duyệt nghỉ phép', 'pen', 'nghi-phep-phe-duyet']].map(x => `<button class="qa" data-go="${x[2]}" style="border:none;background:transparent;cursor:pointer"><div class="qic">${icons[x[1]]}</div><div>${x[0]}</div></button>`).join('')}${'</div></div>'}` },
+      'nhan-su-quan-ly': { t: 'Quản lý nhân sự', r: () => tool('<input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button><button class="btn b2">Xuất excel</button>', '<button class="btn b1" data-go="nhan-su-them-moi">+ Thêm mới</button>') + `<div class="gc2">${tree('CÔNG TY CỔ PHẦN BIZDI', ['Ban Giám Đốc', 'Phòng Kế Toán Tổng Hợp', 'Phòng Kinh Doanh', 'Phòng Phát Triển Sản Phẩm', 'Phòng Nhân Sự', 'Phòng Hỗ Trợ Vận Hành'])}${table(['STT', 'Tên nhân viên', 'Chức vụ', 'Phòng ban', 'Email', 'SDT', ''], [['1', 'Trần Thị Thu Hiền', 'Giám đốc', 'Ban giám đốc', 'hienttt@bizdi.net', '0914123456', '<span class="bdg green">Xem</span>'], ['2', 'Xuân Anh', 'Trưởng phòng', 'Phòng kế toán tổng hợp', 'Tidumong789@gmail.com', '0328580103', '<span class="bdg green">Xem</span>'], ['3', 'Mỹ Duyên', 'TV BKS', 'Phòng kế toán tổng hợp', 'myduyen@bizdi.net', '0923456789', '<span class="bdg green">Xem</span>'], ['4', 'Châu My', 'Chuyên viên', 'Phòng kinh doanh', 'nguyenmy4738@gmail.com', '0949854938', '<span class="bdg green">Xem</span>'], ['5', 'La Thị Tuyết', 'Chuyên viên', 'Phòng Phát Triển Sản Phẩm', 'Tuyet01@gmail.com', '0335479514', '<span class="bdg green">Xem</span>']])}</div>` },
+      'nhan-su-tai-khoan': { t: 'Quản lý tài khoản', r: () => tool('<input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>') + `<div class="gc2">${tree('CÔNG TY CỔ PHẦN BIZDI', ['Ban Giám Đốc', 'Phòng Kế Toán Tổng Hợp', 'Phòng Kinh Doanh', 'Phòng Phát Triển Sản Phẩm', 'Phòng Nhân Sự', 'Phòng Hỗ Trợ Vận Hành'])}${table(['', 'Tên nhân viên', 'Chức vụ', 'Phòng ban', 'Email', 'SDT'], [['+', 'Trần Thị Thu Hiền', 'Giám đốc', 'Ban giám đốc', 'hienttt@bizdi.net', '0914123456'], ['+', 'Xuân Anh', 'Trưởng phòng', 'Phòng kế toán tổng hợp', 'Tidumong789@gmail.com', '0328580103'], ['+', 'Mỹ Duyên', 'TV BKS', 'Phòng kế toán tổng hợp', 'myduyen@bizdi.net', '0923456789'], ['+', 'Châu My', 'Chuyên viên', 'Phòng kinh doanh', 'nguyenmy4738@gmail.com', '0949854938'], ['+', 'La Thị Tuyết', 'Chuyên viên', 'Phòng Phát Triển Sản Phẩm', 'Tuyet01@gmail.com', '0335479514']])}</div>` },
+      'nhan-su-to-ban': { t: 'Quản lý tổ ban', r: () => tool('<input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1" data-go="nhan-su-to-ban-them-moi">+ Thêm mới</button>') + table(['STT', 'Tên tổ ban', 'Số quyết định', 'Ngày ký quyết định', 'SL thành viên', 'Trạng thái'], []) },
+      'nhan-su-thong-ke': { t: 'Báo cáo thống kê theo nhân sự', r: () => `<div class="card pad"><div class="mt">Báo cáo nhân sự</div><div style="display:grid;grid-template-columns:104px 1fr 1fr auto;gap:8px;align-items:center;font-size:11px"><div><strong>Nghỉ việc:</strong></div><input class="in" type="date"><input class="in" type="date"><button class="btn b2">Xuất excel</button><div><strong>Điều động luân chuyển:</strong></div><input class="in" type="date"><input class="in" type="date"><button class="btn b2">Xuất excel</button><div><strong>Lỗi vi phạm:</strong></div><input class="in" placeholder="Năm 2026"><button class="btn b2">Xuất excel</button><div></div><div><strong>Xếp loại KPI:</strong></div><input class="in" placeholder="Năm 2026"><button class="btn b2">Xuất excel</button><div></div><div><strong>Thu nhập:</strong></div><input class="in" placeholder="Năm 2026"><button class="btn b2">Xuất excel</button><div></div></div></div><div class="sg"><div class="card cb"><div class="mt">Biểu đồ thống kê theo giới tính</div><div class="donut"></div><div class="lg"><div class="li"><span class="sw" style="background:#276cd2"></span><span>Nam</span></div><div class="li"><span class="sw" style="background:#f4b000"></span><span>Nữ</span></div></div></div><div class="card cb"><div class="mt">Biểu đồ thống kê theo trình độ học vấn</div><div class="barc"><div><div class="bar" style="height:120px"></div><div class="bl">Thạc sĩ</div></div></div></div></div>` },
+      'nghi-phep-dang-ky': { t: 'Danh sách đơn nghỉ phép cá nhân', r: () => tool('<select class="sel"><option>Năm 2026</option></select><input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1" data-go="nghi-phep-them-moi">+ Thêm mới</button>') + table(['STT', 'Nhân viên', 'Loại nghỉ', 'Từ ngày', 'Đến ngày', 'Trạng thái', ''], [['1', 'Nguyễn Châu My', 'Nghỉ phép', '20/03/2026', '26/03/2026', '<span class="bdg red">Duyệt</span>', '<span class="bdg green">Xem</span>'], ['2', 'Nguyễn Châu My', 'Nghỉ không lương', '01/12/2025', '03/12/2025', '<span class="bdg red">Duyệt</span>', '<span class="bdg green">Xem</span>'], ['3', 'Nguyễn Châu My', 'Nghỉ ốm', '14/03/2025', '16/03/2025', '<span class="bdg lime">Không Duyệt</span>', '<span class="bdg green">Xem</span>']]) },
+      'nghi-phep-tong-hop': { t: 'Danh sách đơn nghỉ phép cá nhân', r: () => tool('<select class="sel"><option>Ngày tạo</option></select><input class="in" value="01/03/2026"><input class="in" value="31/03/2026"><button class="btn b2">Tìm kiếm</button>') + table(['STT', 'Nhân viên', 'Phòng ban', 'Loại nghỉ', 'Từ ngày', 'Đến ngày', 'Người duyệt', 'Trạng thái', 'Ngày tạo'], [['1', 'Nguyễn Châu My', 'Kinh Doanh', 'Nghỉ phép', '20/03/2026', '26/03/2026', 'Trưởng phòng', '<span class="bdg red">Duyệt</span>', '15/03/2026'], ['2', 'Nguyễn Châu My', 'Kinh Doanh', 'Nghỉ không lương', '01/12/2025', '03/12/2025', 'Trưởng phòng', '<span class="bdg red">Duyệt</span>', '01/03/2026'], ['3', 'Nguyễn Châu My', 'Kinh Doanh', 'Nghỉ ốm', '14/03/2025', '16/03/2025', 'Trưởng phòng', '<span class="bdg lime">Không Duyệt</span>', '14/03/2025']]) },
+      'nghi-phep-phe-duyet': { t: 'Danh sách đơn nghỉ phép ý kiến/ phê duyệt', r: () => tool('<select class="sel"><option>Năm 2026</option></select><input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1" data-go="nghi-phep-them-moi">+ Thêm mới</button>') + table(['STT', 'Nhân viên', 'Loại nghỉ', 'Từ ngày', 'Đến ngày', 'Người duyệt', 'Trạng thái', ''], [['1', 'Nguyễn Châu My', 'Nghỉ phép', '20/03/2026', '26/03/2026', 'Trưởng phòng', '<span class="bdg red">Duyệt</span>', '<span class="bdg green">Xem</span>'], ['2', 'Nguyễn Châu My', 'Nghỉ không lương', '01/12/2025', '03/12/2025', 'Trưởng phòng', '<span class="bdg red">Duyệt</span>', '<span class="bdg green">Xem</span>'], ['3', 'Nguyễn Châu My', 'Nghỉ ốm', '14/03/2025', '16/03/2025', 'Trưởng phòng', '<span class="bdg lime">Không Duyệt</span>', '<span class="bdg green">Xem</span>']]) },
+      'nghi-phep-quan-ly-nam': { t: 'Quản lý phép năm', r: () => tool('<select class="sel"><option>Năm 2026</option></select><input class="in s" placeholder="Nhập tên, phòng ban, chức vụ, ..."><button class="btn b2">Tìm kiếm</button>', '<button class="btn b2">Xuất excel</button><button class="btn b1">Khởi tạo phép năm</button>') + table(['STT', 'Nhân viên', 'Phòng ban', 'Chức vụ', 'Năm', 'Phép tiêu chuẩn', 'Phép thâm niên', 'Tổng cộng', 'Đã nghỉ', 'Còn lại'], []) },
+      'them-gio-dang-ky': { t: 'Danh sách đơn thêm giờ cá nhân', r: () => tool('<select class="sel"><option>Năm 2026</option></select><input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Nhân viên', 'Phòng ban', 'Trạng thái', 'Người ý kiến', 'Người duyệt', 'Ngày', 'Số giờ', ''], [['1', 'Nguyễn Châu My', 'Phòng kinh doanh', '<span class="bdg red">Duyệt</span>', 'Nguyễn Châu My', 'Thu Hiền', '26/03/2026', '2', '<span class="bdg green">Xem</span>'], ['2', 'Nguyễn Châu My', 'Phòng kinh doanh', '<span class="bdg red">Duyệt</span>', 'Nguyễn Châu My', 'Thu Hiền', '04/01/2026', '1', '<span class="bdg green">Xem</span>']]) },
+      'them-gio-tong-hop': { t: 'Danh sách đơn thêm giờ', r: () => tool('<select class="sel"><option>Ngày tạo</option></select><input class="in" value="01/03/2026"><input class="in" value="31/03/2026"><button class="btn b2">Tìm kiếm</button>') + table(['STT', 'Nhân viên', 'Phòng ban', 'Trạng thái', 'Người ý kiến', 'Người duyệt', 'Ngày đăng ký', 'Số giờ', 'Ngày tạo'], [['1', 'Nguyễn Châu My', 'Phòng kinh doanh', '<span class="bdg red">Duyệt</span>', 'Nguyễn Châu My', 'Thu Hiền', '26/03/2026', '2', '26/03/2026']]) },
+      'them-gio-phe-duyet': { t: 'Phê duyệt thêm giờ', r: () => tool('<select class="sel"><option>Năm 2026</option></select><input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>') + table(['STT', 'Nhân viên', 'Phòng ban', 'Trạng thái', 'Người ý kiến', 'Người duyệt', 'Ngày', 'Số giờ'], [['1', 'Nguyễn Châu My', 'Phòng kinh doanh', '<span class="bdg red">Duyệt</span>', 'Nguyễn Châu My', 'Thu Hiền', '26/03/2026', '2'], ['2', 'Nguyễn Châu My', 'Phòng kinh doanh', '<span class="bdg red">Duyệt</span>', 'Nguyễn Châu My', 'Thu Hiền', '04/01/2026', '1']]) },
+      'cham-cong-thang': { t: 'Chấm công tháng', r: () => tool('<select class="sel"><option>Năm 2026</option></select>', '<button class="btn b1">+ Thêm mới</button>') + table(['Tháng', 'Phòng ban', 'Người chấm công', 'Trạng thái', ''], [['03/2026', 'Phòng Kinh Doanh', 'Châu My', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['02/2026', 'Phòng Kinh Doanh', 'Châu My', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['01/2026', 'Phòng Kinh Doanh', 'Châu My', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>']]) },
+      'cham-cong-duyet-thang': { t: 'Duyệt chấm công tháng', r: () => tool('<select class="sel"><option>Tháng 03/2026</option></select>', '<button class="btn b2">Xuất excel</button><button class="btn b2">Xuất tổng hợp</button><button class="btn b3">In CCT</button><button class="btn b3">In CCTG</button>') + `<div class="gc2">${tree('CÔNG TY CỔ PHẦN BIZDI', ['Ban Giám Đốc', 'Phòng Kế Toán Tổng Hợp', 'Phòng Kinh Doanh', 'Phòng Phát Triển Sản Phẩm', 'Phòng Nhân Sự', 'Phòng Hỗ Trợ Vận Hành'])}${table(['Họ và tên', 'Chức vụ', 'Ngày công'], [])}</div>` },
+      'phong-ban-danh-sach': { t: 'Danh sách phòng ban', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + `<div class="p2"><div class="card"><div class="hd">Phòng ban</div><div class="tree"><div class="ti"><span>+</span><span class="root">CÔNG TY CỔ PHẦN BIZDI</span></div>${['Ban Giám đốc', 'Phòng Kế Toán Tổng Hợp', 'Phòng Kinh Doanh', 'Phòng Phát Triển Sản Phẩm', 'Phòng Nhân Sự', 'Phòng Hỗ Trợ Vận Hành'].map(i => `<div class="ti" style="margin-left:18px"><span class="tdot"></span><span>${i}</span></div>`).join('')}</div></div><div class="card"><div class="hd">Thông tin phòng ban</div><div style="padding:10px 14px;font-size:11px"><div style="display:grid;grid-template-columns:60px 1fr;gap:8px;margin-bottom:8px"><strong>Mã đơn vị:</strong><span>QDT</span></div><div style="display:grid;grid-template-columns:60px 1fr;gap:8px;margin-bottom:10px"><strong>Tên đơn vị:</strong><span>Công ty cổ phần BIZDI</span></div><div style="display:flex;justify-content:space-between"><button class="btn b2">✎ Xóa</button><button class="btn b2">◉ Xem</button></div></div></div></div>` },
+      'luong-bhxh': { t: 'Quản lý bảo hiểm', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Tháng', 'Loại', 'Người quản lý', 'Người Lao Động', 'Tổng tiền phải đóng', ''], [['07/2025', 'Bảo hiểm tháng', '', '', '0 đ', '<span class="bdg green">Xem</span>']]) },
+      'luong-thang': { t: 'Danh sách lương', r: () => tool('<select class="sel"><option>Năm 2026</option></select><button class="btn b1">Khởi tạo kỳ lương</button>') + table(['Tháng', 'Loại', 'Ngày khóa điều chỉnh', 'Thu nhập NQL', 'Thu nhập NLĐ', 'Thu nhập NLĐ', ''], [['03/2026', 'Chính/Điều chỉnh', '', '0 đ', '0 đ', '0 đ', '<span class="bdg green">Xem</span>'], ['02/2026', 'Tạm tính', '', '0 đ', '0 đ', '0 đ', '<span class="bdg green">Xem</span>'], ['01/2026', 'Chính/Điều chỉnh', '', '0 đ', '0 đ', '0 đ', '<span class="bdg green">Xem</span>']]) },
+      'luong-phat-sinh': { t: 'Danh sách phát sinh', r: () => tool('<select class="sel"><option>Năm 2026</option></select>', '<button class="btn b1">+ Thêm mới</button>') + table(['Tháng', 'Tên', 'Loại phát sinh', 'Mức tính', 'Số lượng CBCNV', 'Trạng thái'], [], '') },
+      'luong-thu-lao-ndd': { t: 'Thù lao người đại diện', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Năm', 'Tên kỳ quyết', 'Trạng thái'], []) },
+      'luong-thu-lao-kct': { t: 'Thù lao hội đồng quản lý không chuyên trách', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Năm', 'Tên kỳ quyết toán', 'Trạng thái', ''], [['2024', 'Điều chỉnh thù lao người quản lý chuyên trách năm 2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Lương bổ sung từ tháng 1 đến tháng 9/2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Lương bổ sung từ tháng 1 đến tháng 6/2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Thù lao người quản lý chuyên trách Quý 4/2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Thù lao người quản lý chuyên trách Quý 3/2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Thù lao tạm ứng quý 2/2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Thù lao tạm ứng quý 1/2024', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Quyết toán thù lao người quản lý không chuyên trách năm 2023', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Thù lao tạm ứng Hội đồng quản lý không chuyên trách Năm 2023 (Bổ sung đợt 1)', '<span class="bdg lime">Đã duyệt</span>', '<span class="bdg green">Xem</span>'], ['2024', 'Điều chỉnh thù lao tạm ứng NQL không chuyên trách 9 tháng đầu năm 2023', '<span class="bdg lime">Đã duyệt</span>', '<span class="bdg green">Xem</span>']]) },
+      'luong-khen-thuong': { t: 'Danh sách khen thưởng', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Tên', 'Số lượng nhân sự', 'Trạng thái', ''], [['Hỗ trợ Tết Nguyên Đán 2023', '', '<span class="bdg red">Khóa điều chỉnh</span>', '<span class="bdg green">Xem</span>'], ['Hỗ trợ 16 năm thành lập Quy theo QĐ 89/QĐ-QĐTPT ngày 29/9/2023', '', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['Hỗ trợ 30/4 và 1/5', '', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['Hỗ trợ Tết Âm lịch', '', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>'], ['Thưởng theo QĐ 02/QĐ-QĐTPT ngày 12/01/2024 - LĐTT', '', '<span class="bdg blue">Khởi tạo</span>', '<span class="bdg green">Xem</span>']]) },
+      'luong-nql': { t: 'Thanh toán lương Người quản lý', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Năm', 'Tên kỳ quyết toán', 'Trạng thái'], []) },
+      'luong-nld': { t: 'Thanh toán lương bổ sung Người lao động', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Thời gian quyết toán', 'Tên', 'Trạng thái', 'Là điều chỉnh của', 'Số lượng nhân viên', 'Nhóm nhân sự', 'Tổng số tiền'], []) },
+      'luong-phu-cap': { t: 'Thanh toán Phụ cấp tổ giúp việc HĐQL', r: () => tool('', '<button class="btn b1">+ Thêm mới</button>') + table(['Năm', 'Tên kỳ quyết toán', 'Mức lương cơ sở', 'Trạng thái'], []) },
+      'luong-thu-nhap': { t: 'Quản lý thu nhập', r: () => `<div class="card inc"><h2 class="ih">THÔNG TIN LƯƠNG VÀ CÁC KHOẢN THU NHẬP KHÁC</h2><div class="meta" style="max-width:560px"><div><strong>Nhân viên:</strong> Châu My</div><div><strong>Chức vụ:</strong> Chuyên viên</div><div><strong>Phòng ban:</strong> Phòng Kinh Doanh</div></div><div class="years"><span>2022</span><span>2023</span><span>2024</span><span>2025</span><span class="active">2026</span></div><div class="ig"><div><div class="st">Dữ liệu thu nhập</div><div class="legend"><div class="li"><span class="sw" style="background:#2f74db"></span><span>Thu nhập</span></div><div class="li"><span class="sw" style="background:#f3b942"></span><span>Thực nhận</span></div></div><div class="line"></div></div><div><div class="st">Chi tiết thu nhập: 1/2026</div><div class="dbox"><div class="dr"><strong><span>Tổng thu nhập sau xếp loại</span><span>0 đ</span></strong><div>Không có dữ liệu</div></div><div class="dr"><strong><span>Tổng cộng giảm trừ</span><span>0 đ</span></strong><div>Không có dữ liệu</div></div><div class="dr"><strong><span>Mức lương thực nhận</span><span>0 đ</span></strong><div>Không có dữ liệu</div></div></div></div></div></div>` },
+      'quan-tri-chuc-nang': { t: 'Danh sách chức năng', r: () => `<div class="card"><div class="hd" style="display:flex;justify-content:space-between;align-items:center"><span>Danh sách</span><button class="btn b2">+</button></div><div style="display:grid;grid-template-columns:220px 1fr;gap:12px;padding:8px"><div class="card"><div class="tree">${['Nhân sự', 'Nghỉ phép', 'Thêm giờ', 'Chấm công', 'Phòng ban', 'Lương', 'Danh mục', 'Quản trị hệ thống'].map(i => `<div class="ti"><span>+</span><span>${i}</span></div>`).join('')}</div></div><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;padding:10px 12px 14px;font-size:11px">${[['Chức năng cha', '-- Không có chức năng cha --'], ['Tên chức năng', 'Tên chức năng'], ['Mô tả', 'Mô tả'], ['Tên controller', 'Tên controller'], ['Tên action', 'Tên action'], ['URL', 'URL'], ['Icon', 'Icon'], ['Thứ tự', '1']].map(r => `<div style="display:grid;grid-template-columns:72px 1fr;gap:8px;align-items:center"><label>${r[0]}</label><input class="in" value="${r[1]}"></div>`).join('')}<div style="grid-column:1/-1;display:flex;gap:18px;align-items:center;font-size:11px;color:#666"><label><input checked type="checkbox"> Hiển thị</label><label><input type="checkbox"> Kích hoạt</label></div></div><div style="display:flex;justify-content:space-between;padding:0 12px 14px"><button class="btn b3">Xóa</button><button class="btn b2">Lưu</button></div></div></div></div>` },
+      'quan-tri-ds-quyen': { t: 'Quản lý quyền', r: () => `<div class="p2"><div class="card"><div class="hd">Danh sách chức năng</div><div class="tree">${['Nhân sự', 'Nghỉ phép', 'Thêm giờ', 'Chấm công', 'Phòng ban', 'Lương', 'Danh mục', 'Quản trị hệ thống'].map(i => `<div class="ti"><span>+</span><span>${i}</span></div>`).join('')}</div></div><div class="card"><div class="hd" style="display:flex;justify-content:space-between;align-items:center"><span>Danh sách quyền</span><button class="btn b2">+</button></div><div style="padding:16px 54px 16px">${table(['STT', 'Tên quyền', 'Hành động'], ['Quản lý nhân sự', 'Lãnh đạo phòng', 'Lãnh đạo phụ trách', 'Giám đốc', 'Chuyên viên', 'Quản trị', 'Phó phòng', 'Chấm công', 'Chuyên viên thuế', 'BCH Công đoàn', 'Chuyên viên đào tạo', 'Chuyên viên nhân sự', 'Chuyên viên tiền lương'].map((x, i) => [i + 1, x, edit()])).replace('<div class="card">', '').replace(/<\/div>$/, '')}</div></div></div>` },
+      'quan-tri-phan-chuc-nang': { t: 'Quản lý quyền', r: () => tool('<input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>') + `<div class="gc2">${tree('', ['Nhân sự', 'Nghỉ phép', 'Thêm giờ', 'Chấm công', 'Phòng ban', 'Lương', 'Danh mục', 'Quản trị hệ thống'])}${table(['Mã nhân viên', 'Tên nhân viên', 'Phòng ban', 'Chức vụ'], [['123', 'Trưởng phòng', 'Phòng Kế Toán Tổng Hợp', 'Trưởng phòng'], ['NV47', 'Nguyễn Nguyệt Xuân Anh', 'Phòng Kế Toán Tổng Hợp', 'TV BKS'], ['NV48', 'Châu My', 'Phòng Kinh Doanh', 'Chuyên viên'], ['NV01', 'Trần Thị Thu Hiền', 'Ban Giám Đốc', 'Giám đốc']])}</div>` },
+      'quan-tri-phan-quyen': { t: 'Phân quyền', r: () => tool('<input class="in s" placeholder="Nhập tên, mã nhân viên, email, số điện thoại"><button class="btn b2">Tìm kiếm</button>') + `<div class="gc2">${tree('', ['Nhân sự', 'Nghỉ phép', 'Thêm giờ', 'Chấm công', 'Phòng ban', 'Lương', 'Danh mục', 'Quản trị hệ thống'])}${table(['Mã nhân viên', 'Tên nhân viên', 'Phòng ban', 'Chức vụ'], [['123', 'Trưởng phòng', 'Phòng Kế Toán Tổng Hợp', 'Trưởng phòng'], ['NV47', 'Nguyễn Nguyệt Xuân Anh', 'Phòng Kế Toán Tổng Hợp', 'TV BKS'], ['NV48', 'Châu My', 'Phòng Kinh Doanh', 'Chuyên viên'], ['NV01', 'Trần Thị Thu Hiền', 'Ban Giám Đốc', 'Giám đốc']])}</div>` }
+    };
+    pages['nhan-su-ho-so'] = { t: 'Hồ sơ cá nhân', r: () => `<div class="profile-page"><h2 class="profile-title">Thông tin nhân sự</h2><section class="profile-block"><div class="profile-main"><div class="profile-grid"><div class="profile-avatar"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path><path d="M5 20a7 7 0 0 1 14 0"></path></svg></div><div class="profile-col"><div class="profile-item"><strong>Tên nhân viên:</strong>ABC</div><div class="profile-item"><strong>Tình trạng hôn nhân:</strong>Chưa kết hôn</div><div class="profile-item"><strong>Email:</strong>ABC@gmail.com</div><div class="profile-item"><strong>Quốc tịch:</strong>Việt Nam</div><div class="profile-item"><strong>Trình độ văn hóa:</strong>TH 12/12</div><div class="profile-item"><strong>Trình độ văn hóa:</strong>12</div></div><div class="profile-col"><div class="profile-item"><strong>Giới tính:</strong>Nữ</div><div class="profile-item"><strong>Ngày sinh:</strong>01/01/2002</div><div class="profile-item"><strong>Email:</strong>123456789</div><div class="profile-item"><strong>Dân tộc:</strong>Kinh</div><div class="profile-item"><strong>Mã số thuế:</strong>...</div><div class="profile-item"><strong>Số BHXH:</strong>...</div></div><div class="profile-col"><div class="profile-item"><strong>Tôn giáo:</strong>Phật giáo</div><div class="profile-item"><strong>Số CMND/CCCD:</strong>912345678</div><div class="profile-item"><strong>Ngày cấp CCCD:</strong>21/01/2022</div><div class="profile-item"><strong>Nơi cấp CMND/CCCD:</strong>...</div><div class="profile-item"><strong>Nơi ở hiện tại:</strong>...</div><div class="profile-item"><strong>Nơi thường trú:</strong>...</div></div><div class="profile-col"><div class="profile-item"><strong>Nơi sinh:</strong>Đà Nẵng</div><div class="profile-item"><strong>Quê quán:</strong>Đà Nẵng</div><div class="profile-item"><strong>Nơi ở:</strong>Số tài khoản</div><div class="profile-item"><strong>Ngân hàng:</strong>...</div></div></div></div></section><section class="profile-block"><div class="profile-head"><span>Thông tin công việc</span></div><div class="profile-info"><div class="profile-job"><div class="profile-item"><strong>Trạng thái:</strong>...</div><div class="profile-item"><strong>Ngày vào làm:</strong>21/01/2026</div><div class="profile-item"><strong>Ngày tính phép:</strong>21/01/2026</div><div class="profile-item"><strong>Phòng ban:</strong>Phòng Kinh Doanh</div><div class="profile-item"><strong>Chức vụ:</strong>Chuyên viên</div><div class="profile-item"><strong>Nhóm nhân sự:</strong>...</div><div class="profile-item"><strong>Chức danh chuyên môn:</strong>...</div><div class="profile-item"><strong>Thư ký/LĐCT:</strong>...</div><div class="profile-item"><strong>Sổ số BHXH:</strong>...</div></div></div></section><section class="profile-block"><div class="profile-head"><span>Thông tin hợp đồng/Quyết định bổ nhiệm</span></div><div class="profile-contract"><div class="profile-item"><strong>Số hợp đồng/Quyết định bổ nhiệm:</strong><span class="profile-tag">Từ ngày</span></div><div class="profile-item"><strong>Loại hợp đồng/Quyết định bổ nhiệm:</strong>Hợp đồng/Quyết định bổ nhiệm</div><div class="profile-item"><strong>Ngày ký:</strong>...</div><div class="profile-item"><strong>Nơi ký:</strong>...</div><div class="profile-item"><strong>Từ ngày:</strong>...</div><div class="profile-item"><strong>Đến ngày:</strong>...</div><div class="profile-item"><strong>Người ký:</strong>...</div><div class="profile-item"><strong>Đóng BHXH:</strong><span class="profile-status">Không đóng</span></div><div class="profile-item"><strong>Quyết định bậc lương</strong></div><div class="profile-item"><strong>Số quyết định bậc lương:</strong>...</div><div class="profile-item"><strong>Hệ số:</strong>...</div><div class="profile-item"><strong>Mức lương:</strong>0 đ</div><div class="profile-item"><strong>Ngày ký quyết định:</strong>...</div><div class="profile-item"><strong>Từ ngày:</strong>...</div><div class="profile-item"><strong>Đến ngày:</strong>...</div></div></section><section class="profile-block profile-table"><div class="profile-head"><span>Thông tin hợp đồng/Quyết định bổ nhiệm</span></div>${table(['STT', 'Từ ngày', 'Đến ngày', 'Phòng ban', 'Chức vụ', 'Loại quyết định'], []).replace('<div class="card">', '').replace(/<\/div>$/, '')}</section><section class="profile-block profile-table"><div class="profile-head"><span>Trình độ học vấn</span></div>${table(['STT', 'Từ ngày', 'Đến ngày', 'Trình độ đào tạo', 'Chuyên ngành đào tạo', 'Hình thức đào tạo'], []).replace('<div class="card">', '').replace(/<\/div>$/, '')}</section><section class="profile-block profile-table"><div class="profile-head"><span>Chứng chỉ</span></div>${table(['STT', 'Tên chứng chỉ', 'Loại chứng chỉ', 'Ngày cấp', 'Thời hạn'], []).replace('<div class="card">', '').replace(/<\/div>$/, '')}</section><section class="profile-block profile-table"><div class="profile-head"><span>Khen thưởng</span></div>${table(['STT', 'Ngày QĐ', 'Số QĐ', 'Hình thức', 'Thành tích', 'Thẩm quyền', 'Người ký QĐ'], []).replace('<div class="card">', '').replace(/<\/div>$/, '')}</section><section class="profile-block profile-table"><div class="profile-head"><span>Kỷ luật</span></div>${table(['STT', 'Ngày QĐ', 'Số QĐ', 'Hình thức kỷ luật', 'ND kỷ luật', 'Thẩm quyền', 'Người ký QĐ'], []).replace('<div class="card">', '').replace(/<\/div>$/, '')}</section><div class="profile-actions"><span class="profile-fab red">⊖</span><span class="profile-fab cyan">↓</span><span class="profile-fab green">⎙</span></div></div>` };
+    pages['nhan-su-them-moi'] = {
+      t: 'Thêm mới nhân sự',
+      r: () => `
+        <div class="crumb">Trang chủ / Thêm mới nhân sự</div>
+        <div class="hr-create">
+          <h2 class="hr-create-title">Thêm mới nhân sự</h2>
+          <section class="card hr-card">
+            <div class="hr-card-head">Thông tin cá nhân</div>
+            <div class="hr-card-body">
+              <div class="hr-personal">
+                <div class="hr-avatar-wrap">
+                  <div class="hr-avatar-label">Ảnh đại diện</div>
+                  <label class="hr-avatar-box">
+                    <span>+ Thêm ảnh</span>
+                    <input type="file" accept="image/*">
+                  </label>
+                </div>
+                <div class="hr-grid">
+                  <label class="hr-field">
+                    <span class="hr-label req">Tên nhân viên</span>
+                    <input class="in" placeholder="Nhập tên nhân viên">
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label req">Giới tính</span>
+                    <select class="sel"><option>Chọn giới tính</option><option>Nam</option><option>Nữ</option></select>
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label req">Thứ tự</span>
+                    <input class="in" placeholder="Nhập thứ tự">
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label">Tình trạng hôn nhân</span>
+                    <select class="sel"><option>Chọn tình trạng hôn nhân</option><option>Chưa kết hôn</option><option>Đã kết hôn</option></select>
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label req">Ngày sinh</span>
+                    <input class="in" type="date">
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label req">Mã nhân viên</span>
+                    <input class="in" placeholder="Nhập mã nhân viên">
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label req">Email</span>
+                    <input class="in" type="email" placeholder="Nhập email">
+                  </label>
+                  <label class="hr-field">
+                    <span class="hr-label">Điện thoại</span>
+                    <input class="in" placeholder="Nhập điện thoại">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="card hr-card">
+            <div class="hr-card-head">Thông tin công việc</div>
+            <div class="hr-card-body">
+              <div class="hr-grid">
+                <label class="hr-field">
+                  <span class="hr-label req">Trạng thái</span>
+                  <select class="sel"><option>Chọn trạng thái nhân viên</option><option>Đang làm việc</option><option>Thử việc</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Ngày vào làm</span>
+                  <input class="in" type="date">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Ngày tính phép</span>
+                  <input class="in" type="date">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Phòng ban</span>
+                  <select class="sel"><option>Chọn đơn vị, phòng ban</option><option>Phòng Kinh Doanh</option><option>Phòng Nhân Sự</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Chức vụ</span>
+                  <select class="sel"><option>Chọn chức vụ</option><option>Chuyên viên</option><option>Trưởng phòng</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Nhóm nhân sự</span>
+                  <select class="sel"><option>Chọn nhóm nhân sự</option><option>Người lao động</option><option>Khác</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Chức danh chuyên môn</span>
+                  <select class="sel"><option>Chọn chức danh chuyên môn</option><option>Chuyên viên</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Trình độ LLCT</span>
+                  <select class="sel"><option>Chọn trình độ LLCT</option><option>Sơ cấp</option><option>Trung cấp</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Số sổ BHXH</span>
+                  <input class="in" placeholder="Nhập số BHXH">
+                </label>
+              </div>
+            </div>
+          </section>
+          <section class="card hr-card">
+            <div class="hr-tab-head">
+              <button class="hr-tab active" type="button">Thông tin chung</button>
+              <button class="hr-tab" type="button">Thông tin Đảng</button>
+              <button class="hr-tab" type="button">Thông tin Đoàn</button>
+              <button class="hr-tab" type="button">Thông tin Quân đội</button>
+            </div>
+            <div class="hr-card-body">
+              <div class="hr-tabs-grid">
+                <label class="hr-field">
+                  <span class="hr-label req">Số CMND/CCCD</span>
+                  <input class="in" placeholder="Nhập số CMND/CCCD">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Ngày cấp CCCD</span>
+                  <input class="in" type="date">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Nơi cấp CMND/CCCD</span>
+                  <input class="in" placeholder="Nhập nơi cấp">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Quốc tịch</span>
+                  <select class="sel"><option>Chọn quốc tịch</option><option>Việt Nam</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Dân tộc</span>
+                  <select class="sel"><option>Chọn dân tộc</option><option>Kinh</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Tôn giáo</span>
+                  <select class="sel"><option>Chọn tôn giáo</option><option>Không</option><option>Phật giáo</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Trình độ văn hóa</span>
+                  <select class="sel"><option>Chọn trình độ văn hóa</option><option>12/12</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Quê quán</span>
+                  <input class="in" placeholder="Nhập quê quán">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Nơi sinh</span>
+                  <input class="in" placeholder="Nhập nơi sinh">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Mã số thuế</span>
+                  <input class="in" placeholder="Nhập mã số thuế">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Số tài khoản</span>
+                  <input class="in" placeholder="Nhập số tài khoản">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label">Ngân hàng</span>
+                  <input class="in" placeholder="Nhập ngân hàng">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Tỉnh/thành phố thường trú</span>
+                  <select class="sel"><option>Chọn tỉnh thành</option><option>Đà Nẵng</option><option>Hà Nội</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Quận/huyện thường trú</span>
+                  <select class="sel"><option>Chọn quận/huyện</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Phường/xã thường trú</span>
+                  <select class="sel"><option>Chọn phường/xã</option></select>
+                </label>
+                <label class="hr-wide">
+                  <span class="hr-label req">Số nhà/thôn/xóm thường trú</span>
+                  <input class="in" placeholder="Nhập địa chỉ thường trú">
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Tỉnh/thành phố hiện tại</span>
+                  <select class="sel"><option>Chọn tỉnh thành</option><option>Đà Nẵng</option><option>TP.HCM</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Quận/huyện hiện tại</span>
+                  <select class="sel"><option>Chọn quận/huyện</option></select>
+                </label>
+                <label class="hr-field">
+                  <span class="hr-label req">Phường/xã hiện tại</span>
+                  <select class="sel"><option>Chọn phường/xã</option></select>
+                </label>
+                <label class="hr-wide">
+                  <span class="hr-label req">Số nhà/thôn/xóm hiện tại</span>
+                  <input class="in" placeholder="Nhập địa chỉ hiện tại">
+                </label>
+              </div>
+            </div>
+          </section>
+          <div class="hr-actions">
+            <button class="btn b2" data-go="nhan-su-quan-ly">Quay lại</button>
+            <button class="btn b1">Lưu</button>
+          </div>
+        </div>`
+    };
+    pages['nhan-su-to-ban-them-moi'] = {
+      t: 'Thêm mới tổ ban',
+      r: () => `
+        <div class="crumb">Trang chủ / Thêm mới tổ ban</div>
+        <div class="tb-create">
+          <h2 class="hr-create-title">Thêm mới tổ ban</h2>
+          <div><span class="tb-section-title">Thông tin chung</span></div>
+          <section class="card hr-card">
+            <div class="hr-card-body">
+              <div class="tb-grid">
+                <label class="tb-field">
+                  <span class="hr-label req">Tên tổ ban</span>
+                  <input class="in" placeholder="Tên tổ ban">
+                </label>
+                <label class="tb-field">
+                  <span class="hr-label">Số quyết định</span>
+                  <input class="in" placeholder="Số quyết định">
+                </label>
+                <label class="tb-field">
+                  <span class="hr-label">Ngày ký quyết định</span>
+                  <input class="in" type="date">
+                </label>
+                <label class="tb-field">
+                  <span class="hr-label">Ngày bắt đầu</span>
+                  <input class="in" type="date">
+                </label>
+                <label class="tb-field">
+                  <span class="hr-label">Ngày kết thúc</span>
+                  <input class="in" type="date">
+                </label>
+                <div class="tb-field">
+                  <span class="hr-label">Trạng thái</span>
+                  <label class="tb-switch">
+                    <input type="checkbox">
+                    <span class="tb-slider"></span>
+                  </label>
+                </div>
+                <label class="tb-wide">
+                  <span class="hr-label">Mô tả</span>
+                  <textarea class="tb-textarea" placeholder=""></textarea>
+                </label>
+                <div class="tb-wide">
+                  <label class="tb-upload">
+                    <span>↥</span>
+                    <span>Thêm file</span>
+                    <input type="file">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="tb-table-toolbar">
+            <button class="btn b1">+ Thêm mới</button>
+          </div>
+          <div><span class="tb-section-title">Danh sách nhân viên</span></div>
+          <section class="card hr-card tb-table-wrap">
+            <table class="tb-table">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên nhân viên</th>
+                  <th>Chức vụ</th>
+                  <th>Phòng ban</th>
+                  <th>Chức danh</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tb-empty" colspan="6">Không có dữ liệu</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <div class="hr-actions">
+            <button class="btn b2" data-go="nhan-su-to-ban">Quay lại</button>
+            <button class="btn b1">Lưu</button>
+          </div>
+        </div>`
+    };
+    pages['nghi-phep-them-moi'] = {
+      t: 'Đăng ký nghỉ phép',
+      r: () => `
+        <div class="crumb">Trang chủ / Đăng ký nghỉ phép</div>
+        <div class="leave-create">
+          <div class="leave-toolbar">
+            <h2 class="hr-create-title">Đăng ký nghỉ phép</h2>
+            <div class="leave-toolbar-actions">
+              <button class="btn b2">▷ Lưu & Gửi phê duyệt</button>
+              <button class="btn b1">💾 Lưu</button>
+            </div>
+          </div>
+          <div><span class="tb-section-title">Thông tin</span></div>
+          <section class="card hr-card">
+            <div class="hr-card-body">
+              <div class="leave-grid">
+                <div class="leave-field">
+                  <span class="hr-label">Nhân viên</span>
+                  <div class="leave-static">Châu My</div>
+                </div>
+                <label class="leave-field">
+                  <span class="hr-label req">Loại nghỉ</span>
+                  <select class="sel">
+                    <option>--Chọn loại nghỉ--</option>
+                    <option>Nghỉ phép</option>
+                    <option>Nghỉ không lương</option>
+                    <option>Nghỉ ốm</option>
+                  </select>
+                </label>
+                <label class="leave-field">
+                  <span class="hr-label">Địa điểm nghỉ phép</span>
+                  <input class="in" placeholder="">
+                </label>
+                <label class="leave-field">
+                  <span class="hr-label req">Kính gửi</span>
+                  <textarea class="leave-textarea"></textarea>
+                </label>
+                <label class="leave-wide">
+                  <span class="hr-label req">Lý do</span>
+                  <textarea class="leave-textarea"></textarea>
+                </label>
+                <label class="leave-field">
+                  <span class="hr-label">Người ý kiến</span>
+                  <select class="sel">
+                    <option>--Chọn nhân sự--</option>
+                    <option>Trưởng phòng</option>
+                    <option>Phó phòng</option>
+                  </select>
+                </label>
+                <label class="leave-field">
+                  <span class="hr-label req">Người duyệt</span>
+                  <select class="sel">
+                    <option>--Chọn nhân sự--</option>
+                    <option>Trưởng phòng</option>
+                    <option>Giám đốc</option>
+                  </select>
+                </label>
+                <div></div>
+                <label class="leave-field">
+                  <span class="hr-label req">Từ ngày</span>
+                  <input class="in" type="date">
+                </label>
+                <label class="leave-field">
+                  <span class="hr-label req">Đến ngày</span>
+                  <input class="in" type="date">
+                </label>
+                <div class="leave-field">
+                  <span class="hr-label">Tổng số ngày nghỉ</span>
+                  <div class="leave-static">0 ngày làm việc</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>`
+    };
+    pages['danh-muc-chuc-vu'] = { t: 'Quản lý danh mục chức vụ', r: () => tool('<input class="in s" placeholder="Nhập tên, mã chức vụ"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Mã chức vụ', 'Tên chức vụ', 'Tên bậc lương', 'Thứ tự', 'Là quản lý', ''], [['1', 'GD', 'Giám đốc', 'Giám đốc', '1', 'Có', edit()], ['2', 'PGD', 'Phó giám đốc', 'Phó giám đốc', '2', 'Có', edit()], ['3', 'KTT', 'Kế toán trưởng', 'Kế toán trưởng', '3', 'Có', edit()], ['4', 'TBKS', 'Trưởng ban kiểm soát', 'Trưởng ban kiểm soát', '3', 'Có', edit()], ['5', 'CVP', 'Chánh văn phòng', 'Chuyên viên', '4', 'Không', edit()], ['6', 'TP', 'Trưởng phòng', 'Chuyên viên', '4', 'Không', edit()], ['7', 'PCVP', 'Phó chánh văn phòng', 'Chuyên viên', '5', 'Không', edit()], ['8', 'PP', 'Phó phòng', 'Chuyên viên', '5', 'Không', edit()], ['9', 'PTBKS', 'Phó trưởng BKS', 'Chuyên viên', '5', 'Không', edit()], ['10', 'CV', 'Chuyên viên', 'Chuyên viên', '6', 'Không', edit()]]) };
+    pages['danh-muc-bac-luong'] = { t: 'Quản lý danh mục bậc lương', r: () => tool('<input class="in s" placeholder="Nhập tên bậc lương"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Tên bậc lương', 'Thứ tự', ''], [['1', 'Nhân viên', '1', edit()], ['2', 'Cán sự', '2', edit()], ['3', 'Chuyên viên', '3', edit()], ['4', 'Giám đốc', '0', edit()], ['5', 'Phó giám đốc', '0', edit()], ['6', 'Trưởng BKS', '0', edit()], ['7', 'Kế toán trưởng', '0', edit()], ['8', 'Tổ trưởng tổ giúp việc HĐQL', '0', edit()], ['9', 'Tổ viên tổ giúp việc HĐQL', '0', edit()], ['10', 'CT HĐQL theo Giám đốc', '0', edit()]]) };
+    pages['danh-muc-chuc-danh'] = { t: 'Quản lý danh mục chức danh chuyên môn', r: () => tool('<input class="in s" placeholder="Nhập tên, mã chức danh chuyên môn"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Mã chức danh', 'Tên chức danh chuyên môn', ''], [['1', 'A1', 'Nhân viên bảo trì, văn thư lưu trữ, thủ quỹ', edit()], ['2', 'A2', 'Cán sự kỹ thuật viên', edit()], ['3', 'A3', 'Chuyên viên', edit()]]) };
+    pages['danh-muc-loai-hop-dong'] = { t: 'Quản lý danh mục loại hợp đồng/QĐ bổ nhiệm', r: () => tool('<input class="in s" placeholder="Nhập tên loại hợp đồng/QĐ bổ nhiệm"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Tên loại hợp đồng/QĐ bổ nhiệm', 'Thứ tự', ''], [['1', 'Hợp đồng có thời hạn', '0', edit()], ['2', 'Hợp đồng không xác định thời hạn', '1', edit()], ['3', 'Hợp đồng 36 tháng', '2', edit()], ['4', 'Hợp đồng thử việc', '3', edit()], ['5', 'Hợp đồng 12 tháng', '4', edit()], ['6', 'Bổ nhiệm mới', '5', edit()], ['7', 'Bổ nhiệm lại', '6', edit()], ['8', 'Điều động', '7', edit()], ['9', 'Điều động và bổ nhiệm', '8', edit()], ['10', 'Tiếp nhận', '9', edit()]]) };
+    pages['danh-muc-nhom-nhan-su'] = { t: 'Quản lý danh mục nhóm nhân sự', r: () => tool('<input class="in s" placeholder="Nhập tên nhóm nhân sự để tìm kiếm"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Tên nhóm nhân sự', 'Thứ tự', ''], [['1', 'Người quản lý không chuyên trách', '0', edit()], ['2', 'Người quản lý chuyên trách', '1', edit()], ['3', 'Người lao động', '2', edit()], ['4', 'Thư ký', '3', edit()], ['5', 'Tổ giúp việc HĐQL', '4', edit()], ['6', 'Khác', '5', edit()]]) };
+    pages['danh-muc-he-so-luong'] = { t: 'Quản lý danh mục hệ số lương', r: () => tool('<input class="in s" placeholder="Nhập từ khóa để tìm kiếm"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Tên bậc lương', 'Bậc', 'Hệ số', 'Mức lương'], []) };
+    pages['danh-muc-ly-do-nghi-viec'] = { t: 'Quản lý danh mục nhóm lý do nghỉ việc', r: () => tool('<input class="in s" placeholder="Nhập tên nhóm lý do nghỉ việc"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Tên nhóm lý do nghỉ việc', 'Thứ tự', ''], [['1', 'Nhân viên bảo trì, văn thư lưu trữ, thủ quỹ', '1', edit()], ['2', 'Cán sự, kỹ thuật viên', '2', edit()], ['3', 'Chuyên viên', '3', edit()]]) };
+    pages['danh-muc-chuc-vu-doan'] = { t: 'Quản lý danh mục chức vụ Đoàn', r: () => tool('<input class="in s" placeholder="Nhập tên chức vụ Đoàn"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Mã chức vụ Đoàn', 'Tên chức danh Đoàn', ''], [['1', 'BTD', 'Bí thư chi đoàn', edit()], ['2', '', 'Phó bí thư chi đoàn', edit()], ['3', '', 'Ủy viên', edit()]]) };
+    pages['danh-muc-chuc-vu-dang'] = { t: 'Quản lý danh mục chức vụ Đảng', r: () => tool('<input class="in s" placeholder="Nhập tên chức vụ Đảng"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Mã chức vụ Đảng', 'Tên chức danh Đảng', ''], [['1', 'BT', 'Bí thư chi bộ', edit()], ['2', '', 'Phó bí thư chi chi', edit()], ['3', '', 'Chi ủy viên', edit()]]) };
+    pages['danh-muc-loai-quyet-dinh'] = { t: 'Quản lý danh mục quyết định', r: () => tool('<input class="in s" placeholder="Nhập tên quyết định"><button class="btn b2">Tìm kiếm</button>', '<button class="btn b1">+ Thêm mới</button>') + table(['STT', 'Tên quyết định', 'Thứ tự', ''], [['1', 'Bổ nhiệm', '1', edit()], ['2', 'Bổ nhiệm lại', '2', edit()], ['3', 'Điều động', '3', edit()], ['4', 'Điều động và bổ nhiệm', '4', edit()]]) };
+    const menuCfg = [
+      { id: 'dashboard', l: 'Trang chủ', i: 'home' },
+      { id: 'nhan-su', l: 'Nhân sự', i: 'user', c: [['nhan-su-quan-ly', 'Quản lý nhân sự'], ['nhan-su-tai-khoan', 'Danh sách tài khoản'], ['nhan-su-to-ban', 'Tổ ban'], ['nhan-su-thong-ke', 'Thống kê'], ['nhan-su-ho-so', 'Hồ sơ cá nhân']] },
+      { id: 'nghi-phep', l: 'Nghỉ phép', i: 'doc', c: [['nghi-phep-dang-ky', 'Đăng ký nghỉ phép'], ['nghi-phep-tong-hop', 'Tổng hợp'], ['nghi-phep-phe-duyet', 'Phê duyệt/ý kiến'], ['nghi-phep-quan-ly-nam', 'Quản lý phép năm']] },
+      { id: 'them-gio', l: 'Thêm giờ', i: 'plus', c: [['them-gio-dang-ky', 'Đăng ký thêm giờ'], ['them-gio-tong-hop', 'Tổng hợp'], ['them-gio-phe-duyet', 'Phê duyệt/ý kiến']] },
+      { id: 'cham-cong', l: 'Chấm công', i: 'grid', c: [['cham-cong-thang', 'Chấm công tháng'], ['cham-cong-duyet-thang', 'Duyệt công tháng']] },
+      { id: 'phong-ban', l: 'Phòng ban', i: 'team', c: [['phong-ban-danh-sach', 'Danh sách']] },
+      { id: 'luong', l: 'Lương', i: 'money', c: [['luong-bhxh', 'BHXH'], ['luong-thang', 'Lương tháng'], ['luong-phat-sinh', 'Phát sinh'], ['luong-thu-lao-ndd', 'Thù lao NDD'], ['luong-thu-lao-kct', 'Thù lao KCT'], ['luong-khen-thuong', 'Khen thưởng NSK'], ['luong-nql', 'Lương NQL'], ['luong-nld', 'Lương NLĐ'], ['luong-phu-cap', 'Phụ cấp TGV'], ['luong-thu-nhap', 'Thu nhập cá nhân']] },
+      { id: 'danh-muc', l: 'Danh mục', i: 'grid', c: [['danh-muc-chuc-vu', 'Chức vụ'], ['danh-muc-bac-luong', 'Bậc Lương'], ['danh-muc-chuc-danh', 'Chức danh'], ['danh-muc-loai-hop-dong', 'Loại Hợp Đồng'], ['danh-muc-nhom-nhan-su', 'Nhóm nhân sự'], ['danh-muc-he-so-luong', 'Hệ số lương'], ['danh-muc-ly-do-nghi-viec', 'Lý do nghỉ việc'], ['danh-muc-chuc-vu-doan', 'Chức vụ Đoàn'], ['danh-muc-chuc-vu-dang', 'Chức vụ Đảng'], ['danh-muc-loai-quyet-dinh', 'Loại quyết định']] },
+      { id: 'quan-tri', l: 'Quản trị hệ thống', i: 'shield', c: [['quan-tri-chuc-nang', 'Chức năng'], ['quan-tri-ds-quyen', 'DS quyền'], ['quan-tri-phan-chuc-nang', 'Phân chức năng'], ['quan-tri-phan-quyen', 'Phân quyền']] }
+    ];
+    let cur = 'dashboard';
+    function menu() { $('#menu').innerHTML = menuCfg.map(g => { const on = g.c && g.c.some(x => x[0] === cur); const act = g.id === cur || on; return `<div class="mg ${act ? 'open' : ''}"><button class="m ${act ? 'active' : ''}" data-p="${g.c ? g.c[0][0] : g.id}"><span class="ml"><span class="mi">${icons[g.i]}</span><span>${g.l}</span></span>${g.c ? '<span>‹</span>' : ''}</button>${g.c ? `<div class="sub">${g.c.map(x => `<button class="sm ${x[0] === cur ? 'active' : ''}" data-p="${x[0]}">${x[1]}</button>`).join('')}</div>` : ''}</div>` }).join(''); $$('[data-p]').forEach(b => b.onclick = () => go(b.dataset.p)) }
+    function initAttendanceUI() {
+      const dateInput = $('#attendance-date');
+      if (dateInput) {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        dateInput.value = `${y}-${m}-${d}`;
+        dateInput.onclick = () => { if (dateInput.showPicker) dateInput.showPicker(); };
+        dateInput.onfocus = () => { if (dateInput.showPicker) dateInput.showPicker(); };
+      }
+      const syncRowState = check => {
+        const row = check.closest('tr');
+        if (row) row.classList.toggle('checked', check.checked);
+      };
+      const all = $('#attendance-all');
+      if (all) {
+        all.onchange = () => {
+          $$('.attendance-row-check').forEach(check => {
+            check.checked = all.checked;
+            syncRowState(check);
+          });
+        };
+      }
+      $$('.attendance-row-check').forEach(check => {
+        syncRowState(check);
+        check.onchange = () => {
+          syncRowState(check);
+          if (all) {
+            const rows = [...$$('.attendance-row-check')];
+            all.checked = rows.length > 0 && rows.every(x => x.checked);
+          }
+        };
+      });
+      $$('[data-attendance-toggle]').forEach(btn => {
+        btn.onclick = e => {
+          e.stopPropagation();
+          const menu = btn.nextElementSibling;
+          $$('.att-menu').forEach(m => { if (m !== menu) m.classList.remove('open') });
+          menu.classList.toggle('open');
+        };
+      });
+      $$('[data-attendance-value]').forEach(opt => {
+        opt.onclick = e => {
+          e.stopPropagation();
+          const wrap = opt.closest('.att-wrap');
+          wrap.querySelector('.att-value').textContent = opt.textContent.trim();
+          wrap.querySelectorAll('[data-attendance-value]').forEach(x => x.classList.remove('active'));
+          opt.classList.add('active');
+          wrap.querySelector('.att-menu').classList.remove('open');
+        };
+      });
+    }
+    function go(p) { if (!pages[p]) return; cur = p; $('#title').textContent = pages[p].t; $('#content').innerHTML = pages[p].r(); menu(); $$('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go)); initAttendanceUI(); $('#app').classList.remove('open') }
+    function closeUserMenu() { const menuEl = $('#user-menu'); if (menuEl) menuEl.classList.remove('open') }
+    function closeMailModal() { const backdrop = $('#mail-modal-backdrop'); if (backdrop) backdrop.classList.add('hidden') }
+    function openMailModal(email) { const backdrop = $('#mail-modal-backdrop'); const target = $('#mail-target'); const code = $('#mail-code'); if (target) target.textContent = email || ''; if (code) code.value = ''; if (backdrop) backdrop.classList.remove('hidden') }
+    $$('.swv').forEach(a => a.onclick = e => { e.preventDefault(); $$('.v').forEach(v => v.classList.remove('active')); $('#' + a.dataset.v).classList.add('active') });
+    $('#forgotf').onsubmit = e => { e.preventDefault(); const email = $('#forgot-email').value.trim(); if (!email) return; openMailModal(email) };
+    $('#loginf').onsubmit = e => { e.preventDefault(); document.body.classList.remove('auth'); $('#auth').classList.add('hidden'); $('#app').classList.remove('hidden'); go('dashboard'); closeUserMenu() };
+    $('#tog').onclick = () => $('#app').classList.toggle('open');
+    $('#user-toggle').onclick = e => { e.stopPropagation(); $('#user-menu').classList.toggle('open') };
+    $('#profile-btn').onclick = () => { closeUserMenu(); go('nhan-su-ho-so') };
+    $('#logout-btn').onclick = () => { closeUserMenu(); closeMailModal(); $('#app').classList.add('hidden'); $('#auth').classList.remove('hidden'); document.body.classList.add('auth'); $$('.v').forEach(v => v.classList.remove('active')); $('#loginv').classList.add('active') };
+    $('#mail-close').onclick = closeMailModal;
+    $('#mail-confirm').onclick = () => { const code = $('#mail-code').value.trim(); if (!code) return; closeMailModal(); $$('.v').forEach(v => v.classList.remove('active')); $('#resetf').reset(); $('#resetv').classList.add('active') };
+    $('#resetf').onsubmit = e => { e.preventDefault(); const pass = $('#reset-pass').value; const again = $('#reset-pass-again').value; const err = $('#reset-error'); if (!pass || !again || pass !== again) { if (err) err.classList.remove('hidden'); return } if (err) err.classList.add('hidden'); $$('.v').forEach(v => v.classList.remove('active')); $('#loginv').classList.add('active') };
+    $('#reset-pass').oninput = () => { $('#reset-error')?.classList.add('hidden') };
+    $('#reset-pass-again').oninput = () => { $('#reset-error')?.classList.add('hidden') };
+    $('#mail-modal-backdrop').onclick = e => { if (e.target.id === 'mail-modal-backdrop') closeMailModal() };
+    document.addEventListener('click', e => { const box = $('.userbox'); if (box && !box.contains(e.target)) closeUserMenu(); $$('.att-menu').forEach(m => { if (!m.contains(e.target) && (!m.previousElementSibling || !m.previousElementSibling.contains(e.target))) m.classList.remove('open') }) });
+  </script>
+</body>
+
+</html>
